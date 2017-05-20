@@ -1,0 +1,26 @@
+{
+  "name": "multiframer",
+  "version": "1.0.0",
+  "description": "An electron application for viewing multiple frames",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/heinzmuller/multiframer",
+  "keywords": [
+    "Electron"
+  ],
+  "author": "Alexander Nilsson <alexander@alxoptr.se>",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.6.2"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.64",
+    "@types/react": "^15.0.24",
+    "@types/react-dom": "^15.5.0",
+    "lodash": "^4.17.4",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
