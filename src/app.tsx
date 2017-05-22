@@ -2,25 +2,6 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { debounce } from 'lodash'
 
-const styles = {
-    iframe: {
-        position: 'absolute',
-        width: '100%',
-        height: 'calc(100% - 47px)',
-        marginTop: 47
-    },
-    input: {
-        border: 'solid 2px #444',
-        borderRadius: 3,
-        background: 'transparent',
-        flex: '1',
-        marginRight: 10,
-        padding: '5px 10px',
-        color: '#aaa',
-        outline: 'none',
-    },
-}
-
 interface Props {
     url: string;
 }
@@ -38,10 +19,6 @@ class App extends React.Component<Props, State> {
         ],
         spacing: 2,
         settings: false
-    }
-
-    static defaultProps = {
-        url: "http://svt.se/"
     }
 
     constructor(props: Props) {
@@ -78,7 +55,7 @@ class App extends React.Component<Props, State> {
 
     _setFrameLayout = (e: any) => {
         const { url } = this.props
-        const { layout } = e.target.dataset
+        const { layout } = e.currentTarget.dataset
 
         switch(layout) {
             case "6":
@@ -114,18 +91,69 @@ class App extends React.Component<Props, State> {
                     }
                 `}</style>
                 {settings && (
-                    <div id="settings">
-                        <h2>Layouts</h2>
-                        <ul>
-                            <li><button data-layout="1" onClick={this._setFrameLayout}>1</button></li>
-                            <li><button data-layout="2" onClick={this._setFrameLayout}>2</button></li>
-                            <li><button data-layout="3" onClick={this._setFrameLayout}>3</button></li>
-                            <li><button data-layout="4" onClick={this._setFrameLayout}>4</button></li>
-                            <li><button data-layout="6" onClick={this._setFrameLayout}>6</button></li>
-                        </ul>
-                        <h2>Spacing</h2>
-                        <input type="number" value={spacing} onChange={(e) => this.setState({ spacing: parseInt(e.target.value) })} />
-                        <button id="close-settings" onClick={() => this.setState({ settings: false })}>Close</button>
+                    <div id="settings" onClick={e => e.target === e.currentTarget && this.setState({ settings: false })}>
+                        <div id="settings-content">
+                            <h2>Layouts</h2>
+                            <ul>
+                                <li>
+                                    <button data-layout="1" onClick={this._setFrameLayout}>
+                                        <svg width="22px" height="22px" viewBox="0 0 22 22">
+                                            <rect id="1-frame" fill="#000000" x="0" y="0" width="22" height="22" rx="2"></rect>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-layout="2" onClick={this._setFrameLayout}>
+                                        <svg width="22px" height="22px" viewBox="0 0 22 22">
+                                            <g id="2-frames" fill="#000000">
+                                                <rect id="Rectangle-2" x="0" y="0" width="10" height="22" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="12" y="0" width="10" height="22" rx="2"></rect>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-layout="3" onClick={this._setFrameLayout}>
+                                        <svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1">
+                                            <g id="3-frames" fill="#000000">
+                                                <rect id="Rectangle-2" x="0" y="0" width="6" height="22" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="8" y="0" width="6" height="22" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="16" y="0" width="6" height="22" rx="2"></rect>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-layout="4" onClick={this._setFrameLayout}>
+                                        <svg width="22px" height="22px" viewBox="0 0 22 22">
+                                            <g id="4-frames" fill="#000000">
+                                                <rect id="Rectangle-2" x="0" y="0" width="10" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="12" y="0" width="10" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="0" y="12" width="10" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="12" y="12" width="10" height="10" rx="2"></rect>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-layout="6" onClick={this._setFrameLayout}>
+                                        <svg width="22px" height="22px" viewBox="0 0 22 22">
+                                            <g id="6-frames" fill="#000000">
+                                                <rect id="Rectangle-2" x="0" y="0" width="6" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="8" y="0" width="6" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="16" y="0" width="6" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="0" y="12" width="6" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="8" y="12" width="6" height="10" rx="2"></rect>
+                                                <rect id="Rectangle-2" x="16" y="12" width="6" height="10" rx="2"></rect>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </li>
+                            </ul>
+                            <h2>Spacing</h2>
+                            <input type="number" value={spacing} onChange={(e) => this.setState({ spacing: parseInt(e.target.value) })} />
+                            <button id="close-settings" onClick={() => this.setState({ settings: false })}>Close</button>
+                        </div>
                     </div>
                 )}
                 {frames.map((rows, rowIndex) => (
@@ -138,7 +166,6 @@ class App extends React.Component<Props, State> {
                                         data-row={rowIndex}
                                         defaultValue={frame}
                                         type="text"
-                                        style={styles.input}
                                         onChange={this._handleOnChange}
                                     />
                                     <button onClick={() => this.setState({ settings: true })}>
@@ -161,6 +188,6 @@ class App extends React.Component<Props, State> {
 }
 
 ReactDOM.render(
-    <App />,
+    <App url="https://svt.se/" />,
     document.getElementById('app')
 )
