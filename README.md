@@ -1,3 +1,3 @@
 # multiframer
 
-![multiframer screenshot](docs/demo.png)
+![multiframer screenshot](docs/demo.jpg)
