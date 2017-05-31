@@ -2,17 +2,17 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { debounce } from 'lodash'
 
-interface Props {
+interface IProps {
     url: string;
 }
 
-interface State {
+interface IState {
     frames: string[][];
     settings: boolean;
     spacing: number;
 }
 
-class App extends React.Component<Props, State> {
+class App extends React.Component<IProps, IState> {
     state = {
         frames: [
             [this.props.url]
@@ -21,39 +21,34 @@ class App extends React.Component<Props, State> {
         settings: false
     }
 
-    constructor(props: Props) {
+    constructor(props: IProps) {
         super(props)
 
         this._setFrames = debounce(this._setFrames, 1000)
     }
 
-    _setFrames = (frames: any) => {
+    private _setFrames = (frames: string[][]) => {
         this.setState({ frames })
     }
 
-    _handleOnChange = (e: any) => {
+    private _handleOnChange = (e: React.FormEvent<HTMLInputElement>) => {
         const {
             dataset: {
                 frame,
                 row,
             },
             value
-         } = e.target
+         } = e.currentTarget
 
          const frames = [...this.state.frames]
 
-         frames[row][frame] = value
-
-         this._setFrames(frames)
+         if(row && frame) {
+            frames[row][frame] = value
+            this._setFrames(frames)
+         }
     }
 
-    _addFrame = () => {
-        const frames = [...this.state.frames]
-        frames.push(frames[0])
-        this.setState({ frames })
-    }
-
-    _setFrameLayout = (e: any) => {
+    private _setFrameLayout = (e: React.FormEvent<HTMLButtonElement>) => {
         const { url } = this.props
         const { layout } = e.currentTarget.dataset
 
@@ -76,7 +71,7 @@ class App extends React.Component<Props, State> {
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         const {
             frames,
             settings,
